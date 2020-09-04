@@ -240,8 +240,9 @@ def __new_library_upload(trans, cntrller, uploaded_dataset, library_bunch, state
     tags_list = uploaded_dataset.get('tags', False)
     if tags_list:
         tag_manager = tags.GalaxyTagHandler(trans.sa_session)
+        tags_list = tag_manager.parse_tags_list(tags_list)
         for tag in tags_list:
-            tag_manager.apply_item_tag(item=ldda, user=trans.user, name='name', value=tag)
+            tag_manager.apply_item_tag(item=ldda, user=trans.user, name=tag[0], value=tag[1])
 
     trans.sa_session.add(ldda)
     if state:
